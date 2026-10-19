@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>509 班成語複習室</title>
+<style>
+:root{font-family:system-ui,"Noto Sans TC","Microsoft JhengHei",sans-serif;color:#243145;background:#f4f7fb}*{box-sizing:border-box}body{margin:0}header{background:#254a70;color:white;padding:24px max(18px,calc((100% - 1040px)/2))}h1{margin:0 0 5px;font-size:26px}header p{margin:0;color:#e0eaf3}.wrap{max-width:1040px;margin:22px auto;padding:0 15px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.tab{background:white;color:#254a70;border:1px solid #d9e1ea}.tab.active{background:#254a70;color:white}.panel{background:white;border:1px solid #dfe6ee;border-radius:17px;padding:24px;margin-bottom:18px;box-shadow:0 4px 16px #173a5a09}h2{margin:0 0 15px;font-size:20px}h3{font-size:16px;margin:14px 0 9px}button,.btn{border:0;border-radius:10px;background:#27689e;color:white;padding:11px 17px;font-size:15px;cursor:pointer;font-weight:650}button:hover{filter:brightness(.95)}button:disabled{opacity:.4;cursor:not-allowed}.secondary{background:#e9f1f8;color:#254a70}.danger{background:#fff0f0;color:#ad3c3c}.success{color:#13784e}.error{color:#bb3434}.muted{color:#617083}.small{font-size:13px}.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:13px}.field label{font-weight:650;font-size:14px}input,textarea,select{font:inherit;border:1px solid #bfcbd9;border-radius:9px;padding:10px 12px;background:white;color:#243145}textarea{min-height:80px}input[type=number]{max-width:120px}.question{font-size:clamp(24px,5vw,37px);font-weight:750;text-align:center;letter-spacing:.1em;margin:25px 0}.explain{font-size:21px;letter-spacing:0;line-height:1.65}.progress{height:10px;background:#e5edf5;border-radius:50px;overflow:hidden;margin:10px 0 14px}.progress>div{height:100%;background:#428dbb;transition:width .2s}.answer{font-size:21px;text-align:center;width:100%;max-width:450px;display:block;margin:0 auto 16px}.chips{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:16px 0}.chip{font-size:25px;min-width:60px;background:#e9f1f8;color:#214969}.slot{min-height:55px;background:#f3f7fa;border:2px dashed #b6c7d6;border-radius:10px;padding:10px;text-align:center;font-size:25px;letter-spacing:.25em;margin-bottom:14px}.feedback{border-radius:10px;background:#f5f8fc;padding:12px 15px;margin:13px 0}.hidden{display:none!important}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.stat{background:#f4f8fc;border-radius:12px;padding:15px}.stat strong{font-size:25px;display:block}.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.row>*{min-width:0}.spaced{justify-content:space-between}.editor{display:grid;grid-template-columns:90px 1fr 80px 1fr;gap:7px;align-items:center;border-bottom:1px solid #e7edf3;padding:10px 0}.editor input{width:100%}.editor button{grid-column:4}.note{background:#fff8e8;border-left:4px solid #e9b74d;padding:12px 15px;border-radius:8px;line-height:1.65}.foot{font-size:13px;color:#607184;margin:20px 0 35px}input[type=file]{max-width:100%}@media(max-width:640px){.panel{padding:16px}.editor{grid-template-columns:70px 1fr}.editor button{grid-column:auto}.question{letter-spacing:.04em}}
+</style></head><body><header><h1>📚 509 班成語複習室</h1><p>國語五上第 1～6 課・線上自我練習・教師可編輯題庫</p></header>
+<main class="wrap"><nav class="tabs"><button class="tab active" data-view="home">練習首頁</button><button class="tab" data-view="quiz">開始練習</button><button class="tab" data-view="mistakes">錯題複習</button><button class="tab" data-view="teacher">教師編輯</button></nav>
+<section id="home" class="panel"><h2>選擇練習方式</h2><p class="muted">預設 54 題跨課、跨題型隨機混合；答錯才顯示正確答案。完成後可挑戰錯題。</p><div class="grid"><div class="stat"><strong id="countFill">36</strong>生字填空</div><div class="stat"><strong id="countReorder">12</strong>成語重組</div><div class="stat"><strong id="countMeaning">6</strong>看解釋寫成語</div></div><div class="controls" style="margin-top:20px"><label>練習類型 <select id="quizType"><option value="all">全部混合</option><option value="fill">生字填空</option><option value="reorder">成語重組</option><option value="meaning">看解釋寫成語</option></select></label><label>課次 <select id="lessonFilter"><option value="0">第 1～6 課</option><option value="1">第 1 課</option><option value="2">第 2 課</option><option value="3">第 3 課</option><option value="4">第 4 課</option><option value="5">第 5 課</option><option value="6">第 6 課</option></select></label><button id="start">開始挑戰 →</button></div><p class="small muted">「全部混合」為預設：36 題生字填空、12 題成語重組、6 題看解釋寫成語。每次開始都會重新打亂順序。</p><div class="note">提醒：線上輸入法可能有選字提示，仍建議搭配紙本練習字形。作答紀錄只儲存在目前瀏覽器，不會自動傳給老師。</div></section>
+<section id="quiz" class="panel hidden"><div class="row spaced"><h2>成語挑戰</h2><span id="counter" class="muted"></span></div><div class="progress"><div id="bar" style="width:0%"></div></div><div id="promptTip" class="muted" style="text-align:center"></div><div id="prompt" class="question"></div><div id="chips" class="chips hidden"></div><div id="slot" class="slot hidden">請點選上方文字</div><input id="userAnswer" class="answer" autocomplete="off" placeholder="輸入答案" aria-label="輸入答案"><div class="controls" style="justify-content:center"><button id="check">送出答案</button><button id="undo" class="secondary hidden">重排</button></div><div id="feedback" class="feedback hidden" aria-live="polite"></div><div class="controls spaced" style="margin-top:20px"><button id="prev" class="secondary">← 上一題</button><button id="next" disabled>下一題 →</button></div></section>
+<section id="mistakes" class="panel hidden"><h2>錯題複習</h2><p id="mistakeSummary" class="muted"></p><div class="controls"><button id="retryMistakes">重練錯題</button><button id="clearMistakes" class="danger">清除錯題紀錄</button></div><div id="mistakeList" style="margin-top:15px"></div></section>
+<section id="teacher" class="panel hidden"><h2>教師編輯模式</h2><p class="muted">可修改成語、生字、解釋、課次，新增或刪除題目。修改只儲存在這台裝置的瀏覽器；要給學生使用，請匯出題庫或下載更新後的 HTML。</p><div class="note">這是離線單檔版，沒有登入驗證。教師模式只是編輯介面，不是密碼保護；學生若拿到同一檔案也能看到編輯功能。</div><div class="controls" style="margin:16px 0"><button id="addItem">＋ 新增成語</button><button id="saveItems" class="secondary">儲存編輯</button><button id="exportJson" class="secondary">匯出 JSON 題庫</button><button id="exportCsv" class="secondary">匯出 CSV（Excel 可開啟）</button><button id="exportHtml" class="secondary">下載更新後的網頁 HTML</button></div><div class="controls"><label class="btn secondary" for="importFile">匯入 JSON／CSV 題庫</label><input type="file" id="importFile" accept=".json,.csv,application/json,text/csv" class="hidden"><button id="resetItems" class="danger">還原原始 36 個成語</button></div><p id="editStatus" class="small muted"></p><div id="editList"></div></section>
+<p class="foot">適用電腦、平板與手機。建議使用 Chrome、Edge 或 Safari。離線也能使用；請定期匯出題庫備份。</p></main>
+<script id="seed-data" type="application/json">[{"id": 1, "lesson": 1, "idiom": "大聲疾呼", "target": "疾", "meaning": ""}, {"id": 2, "lesson": 1, "idiom": "死灰復燃", "target": "死", "meaning": ""}, {"id": 3, "lesson": 1, "idiom": "碩果僅存", "target": "碩", "meaning": ""}, {"id": 4, "lesson": 1, "idiom": "集思廣益", "target": "集", "meaning": ""}, {"id": 5, "lesson": 1, "idiom": "寄人籬下", "target": "寄", "meaning": ""}, {"id": 6, "lesson": 1, "idiom": "赴湯蹈火", "target": "赴", "meaning": ""}, {"id": 7, "lesson": 2, "idiom": "德高望重", "target": "德", "meaning": ""}, {"id": 8, "lesson": 2, "idiom": "微乎其微", "target": "微", "meaning": ""}, {"id": 9, "lesson": 2, "idiom": "哀鴻遍野", "target": "哀", "meaning": ""}, {"id": 10, "lesson": 2, "idiom": "抱殘守缺", "target": "殘", "meaning": ""}, {"id": 11, "lesson": 2, "idiom": "同流合汙", "target": "汙", "meaning": ""}, {"id": 12, "lesson": 2, "idiom": "當機立斷", "target": "斷", "meaning": ""}, {"id": 13, "lesson": 3, "idiom": "疾風勁草", "target": "勁", "meaning": ""}, {"id": 14, "lesson": 3, "idiom": "隱惡揚善", "target": "隱", "meaning": ""}, {"id": 15, "lesson": 3, "idiom": "暗箭傷人", "target": "箭", "meaning": ""}, {"id": 16, "lesson": 3, "idiom": "適可而止", "target": "止", "meaning": ""}, {"id": 17, "lesson": 3, "idiom": "羽毛未豐", "target": "豐", "meaning": ""}, {"id": 18, "lesson": 3, "idiom": "百折不撓", "target": "折", "meaning": ""}, {"id": 19, "lesson": 4, "idiom": "養精蓄銳", "target": "銳", "meaning": ""}, {"id": 20, "lesson": 4, "idiom": "飲水思源", "target": "源", "meaning": ""}, {"id": 21, "lesson": 4, "idiom": "養尊處優", "target": "尊", "meaning": ""}, {"id": 22, "lesson": 4, "idiom": "義正辭嚴", "target": "嚴", "meaning": ""}, {"id": 23, "lesson": 4, "idiom": "汗馬功勞", "target": "勞", "meaning": ""}, {"id": 24, "lesson": 4, "idiom": "怨聲載道", "target": "怨", "meaning": ""}, {"id": 25, "lesson": 5, "idiom": "沽名釣譽", "target": "譽", "meaning": ""}, {"id": 26, "lesson": 5, "idiom": "當務之急", "target": "務", "meaning": ""}, {"id": 27, "lesson": 5, "idiom": "三令五申", "target": "申", "meaning": "再三命令、告誡。"}, {"id": 28, "lesson": 5, "idiom": "歷歷在目", "target": "歷", "meaning": "清楚明白地呈現在眼前。"}, {"id": 29, "lesson": 5, "idiom": "出奇制勝", "target": "勝", "meaning": "用奇特、創新的方法取得好效果。"}, {"id": 30, "lesson": 5, "idiom": "橫行霸道", "target": "霸", "meaning": ""}, {"id": 31, "lesson": 6, "idiom": "引經據典", "target": "典", "meaning": ""}, {"id": 32, "lesson": 6, "idiom": "責無旁貸", "target": "責", "meaning": "自己應盡的責任，沒有理由推卸。"}, {"id": 33, "lesson": 6, "idiom": "孤掌難鳴", "target": "鳴", "meaning": "比喻孤立無助，不能成事。"}, {"id": 34, "lesson": 6, "idiom": "漸入佳境", "target": "佳", "meaning": ""}, {"id": 35, "lesson": 6, "idiom": "上行下效", "target": "效", "meaning": ""}, {"id": 36, "lesson": 6, "idiom": "以貌取人", "target": "貌", "meaning": "以容貌儀表作為評斷或選取人才的標準。"}]</script>
+<script>
+(()=>{'use strict';
+const SEED=JSON.parse(document.getElementById('seed-data').textContent);
+const STORE='idiom509_data_v1', WRONG='idiom509_wrong_v1';
+const $=id=>document.getElementById(id);
+const clone=x=>JSON.parse(JSON.stringify(x));
+let bank=clone(SEED),questions=[],pos=0,attempts={},chosen=[],wrong={},reviewRun=false,finished=false;
+try{const saved=JSON.parse(localStorage.getItem(STORE)||'null');if(Array.isArray(saved))bank=saved;wrong=JSON.parse(localStorage.getItem(WRONG)||'{}')||{}}catch(e){}
+const escapeHTML=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const norm=s=>String(s||'').replace(/[\s　，。／、]/g,'').trim();
+const persist=()=>{try{localStorage.setItem(STORE,JSON.stringify(bank))}catch(e){alert('瀏覽器無法儲存，請使用「匯出 JSON」備份。')}};
+const saveWrong=()=>{try{localStorage.setItem(WRONG,JSON.stringify(wrong))}catch(e){}};
+const selectView=v=>{document.querySelectorAll('main section').forEach(x=>x.classList.toggle('hidden',x.id!==v));document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.view===v));if(v==='teacher')renderEditor();if(v==='mistakes')renderMistakes();if(v==='home')refreshCounts()};
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>selectView(b.dataset.view));
+const isValid=r=>r&&r.idiom&&r.target&&r.idiom.includes(r.target);
+const eligible=()=>bank.filter(isValid);
+function buildQuestions(){const subset=eligible().filter(x=>!+$('lessonFilter').value||x.lesson===+$('lessonFilter').value);const type=$('quizType').value;let a=[];if(type==='all'||type==='fill')a.push(...subset.map(x=>({type:'fill',item:x,answer:x.target})));if(type==='all'||type==='reorder')a.push(...shuffle(subset).slice(0,12).map(x=>({type:'reorder',item:x,answer:x.idiom})));if(type==='all'||type==='meaning')a.push(...shuffle(subset.filter(x=>x.meaning)).slice(0,6).map(x=>({type:'meaning',item:x,answer:x.idiom})));return shuffle(a)}
+function refreshCounts(){const n=eligible();$('countFill').textContent=n.length;$('countReorder').textContent=Math.min(12,n.length);$('countMeaning').textContent=Math.min(6,n.filter(x=>x.meaning).length)}
+function start(qs,review=false){questions=qs;pos=0;attempts={};chosen=[];reviewRun=review;finished=false;if(!questions.length){alert('目前沒有符合條件的題目。可在教師編輯模式補充解釋或修改課次。');return}selectView('quiz');renderQ()}
+$('start').onclick=()=>start(buildQuestions());
+function currentKey(){const q=questions[pos];return `${q.type}:${q.item.idiom}:${q.item.target}`}
+function renderQ(){
+ const q=questions[pos];if(!q)return;
+ finished=false;chosen=[];
+ const old=attempts[pos];
+ $('counter').textContent=`第 ${pos+1} / ${questions.length} 題`;
+ $('bar').style.width=`${(pos+1)/questions.length*100}%`;
+ $('prev').disabled=pos===0;
+ $('next').textContent=pos===questions.length-1?'查看練習結果':'下一題 →';
+ $('next').disabled=!old;
+ $('check').disabled=!!old;
+ $('userAnswer').disabled=!!old;
+ $('userAnswer').value=old?.answer||'';
+ $('feedback').classList.add('hidden');
+ $('userAnswer').classList.toggle('hidden',q.type==='reorder');
+ $('chips').classList.toggle('hidden',q.type!=='reorder');
+ $('slot').classList.toggle('hidden',q.type!=='reorder');
+ $('undo').classList.toggle('hidden',q.type!=='reorder'||!!old);
+ $('prompt').classList.toggle('explain',q.type==='meaning');
+ $('promptTip').textContent=q.type==='fill'?'請填入缺少的生字':q.type==='reorder'?'依序點選四個字，排成正確成語':'請依照解釋寫出成語';
+ $('prompt').textContent=q.type==='fill'?q.item.idiom.replace(q.item.target,'（　）'):q.type==='meaning'?q.item.meaning:'將下列文字排成成語';
+ if(q.type==='reorder'){
+   if(!q.letters){let letters=shuffle(Array.from(q.item.idiom));if(letters.join('')===q.item.idiom)letters.reverse();q.letters=letters}
+   if(old)chosen=[...old.chosen];
+   renderChips();
+ }
+ if(old)showFeedback(old.correct);
+}
+function renderChips(){
+ const q=questions[pos];$('chips').replaceChildren();
+ q.letters.forEach((letter,i)=>{
+   const b=document.createElement('button');b.className='chip';b.textContent=letter;
+   b.disabled=chosen.includes(i)||!!attempts[pos];
+   b.onclick=()=>{chosen.push(i);renderChips()};$('chips').appendChild(b)
+ });
+ $('slot').textContent=chosen.length?chosen.map(i=>q.letters[i]).join('　'):'請點選上方文字';
+}
+$('undo').onclick=()=>{if(attempts[pos])return;chosen=[];renderChips()};
+function getAnswer(){return questions[pos].type==='reorder'?chosen.map(i=>questions[pos].letters[i]).join(''):$('userAnswer').value}
+function showFeedback(correct){
+ const q=questions[pos];$('feedback').classList.remove('hidden');
+ // 答對不顯示答案；只有答錯才顯示正解。
+ $('feedback').innerHTML=correct?'<strong class="success">✓ 答對了！做得好，繼續下一題。</strong>':`<strong class="error">✕ 答錯了！</strong><div style="margin-top:8px">正確答案：<strong>${escapeHTML(q.answer)}</strong></div><div class="small muted" style="margin-top:7px">請看清楚正確字形，記住後再按下一題；這題已加入錯題複習。</div>`;
+}
+function check(){
+ if(finished||attempts[pos])return;
+ const q=questions[pos],a=norm(getAnswer());
+ if(!a){alert('請先作答，再送出答案。');return}
+ if(q.type==='reorder'&&chosen.length!==Array.from(q.item.idiom).length){alert('請先排完所有文字。');return}
+ const correct=a===norm(q.answer);
+ attempts[pos]={correct,answer:a,chosen:[...chosen]};
+ if(!correct){wrong[currentKey()]={type:q.type,item:q.item};saveWrong()}
+ else if(reviewRun&&wrong[currentKey()]){delete wrong[currentKey()];saveWrong()}
+ $('check').disabled=true;$('userAnswer').disabled=true;$('undo').classList.add('hidden');
+ $('next').disabled=false;
+ if(q.type==='reorder')renderChips();
+ showFeedback(correct);
+}
+$('check').onclick=check;
+$('userAnswer').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();check()}};
+$('prev').onclick=()=>{if(pos>0){pos--;renderQ()}};
+function showResult(){
+ finished=true;
+ const answered=Object.keys(attempts).length;
+ const correct=Object.values(attempts).filter(x=>x.correct).length;
+ $('promptTip').textContent='本次練習結果';
+ $('prompt').textContent=`答對 ${correct} / ${questions.length} 題`;
+ $('prompt').classList.remove('explain');
+ $('counter').textContent=`完成 ${answered} 題`;
+ $('bar').style.width='100%';
+ $('feedback').classList.remove('hidden');
+ $('feedback').innerHTML=`<strong>練習完成！</strong><div style="margin-top:7px">首次答對率：${Math.round(correct/questions.length*100)}%</div><div class="small muted" style="margin-top:7px">答錯的題目可至「錯題複習」再次挑戰。</div>`;
+ $('chips').classList.add('hidden');$('slot').classList.add('hidden');
+ $('userAnswer').classList.add('hidden');$('check').classList.add('hidden');
+ $('undo').classList.add('hidden');$('next').disabled=true;
+ $('next').classList.add('hidden');$('prev').classList.add('hidden');
+}
+$('next').onclick=()=>{
+ if(!attempts[pos]){alert('請先送出答案。');return}
+ if(pos<questions.length-1){pos++;renderQ()}else showResult()
+};
+const originalStart=start;
+start=function(qs,review=false){
+ $('check').classList.remove('hidden');$('next').classList.remove('hidden');$('prev').classList.remove('hidden');
+ originalStart(qs,review);
+};
+function renderMistakes(){const list=Object.values(wrong);$('mistakeSummary').textContent=`目前累積 ${list.length} 題錯題（僅此瀏覽器）。`;$('mistakeList').textContent=list.length?'按「重練錯題」開始，答對的題目就會從錯題清單移除。':'目前沒有錯題。';$('retryMistakes').disabled=!list.length}
+$('retryMistakes').onclick=()=>start(shuffle(Object.values(wrong).map(x=>({...x,answer:x.type==='fill'?x.item.target:x.item.idiom}))),true);$('clearMistakes').onclick=()=>{if(confirm('確定清除目前裝置的錯題紀錄？')){wrong={};saveWrong();renderMistakes()}};
+function renderEditor(){const list=$('editList');list.replaceChildren();bank.forEach((r,i)=>{const d=document.createElement('div');d.className='editor';d.innerHTML=`<label>第 <input type="number" min="1" max="99" data-k="lesson" value="${Number(r.lesson)||1}" style="width:54px;padding:6px"> 課</label><input aria-label="成語" data-k="idiom" value="${escapeHTML(r.idiom)}" placeholder="四字成語"><input aria-label="生字" data-k="target" value="${escapeHTML(r.target)}" placeholder="生字"><input aria-label="解釋" data-k="meaning" value="${escapeHTML(r.meaning||'')}" placeholder="成語解釋（選填）"><button class="danger" type="button">刪除</button>`;d.querySelectorAll('[data-k]').forEach(inp=>inp.oninput=()=>{r[inp.dataset.k]=inp.dataset.k==='lesson'?Number(inp.value):inp.value;$('editStatus').textContent='有尚未匯出的修改，請記得儲存及備份。'});d.querySelector('button').onclick=()=>{bank.splice(i,1);renderEditor()};list.appendChild(d)})}
+$('addItem').onclick=()=>{bank.push({id:Math.max(0,...bank.map(x=>Number(x.id)||0))+1,lesson:1,idiom:'',target:'',meaning:''});renderEditor();$('editList').lastElementChild?.scrollIntoView({behavior:'smooth',block:'center'})};
+$('saveItems').onclick=()=>{const invalid=bank.filter(x=>!isValid(x));if(invalid.length){alert(`有 ${invalid.length} 筆成語未填完整，或指定生字不在成語內，請修正。`);return}persist();refreshCounts();$('editStatus').textContent='✓ 已儲存在目前瀏覽器。請匯出 JSON 或 HTML 備份。'};
+function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+$('exportJson').onclick=()=>download('509成語題庫.json',JSON.stringify(bank,null,2),'application/json;charset=utf-8');
+const csvEscape=x=>'"'+String(x??'').replace(/"/g,'""')+'"';
+$('exportCsv').onclick=()=>download('509成語題庫.csv','\ufeff'+[['lesson','idiom','target','meaning'],...bank.map(x=>[x.lesson,x.idiom,x.target,x.meaning])].map(row=>row.map(csvEscape).join(',')).join('\r\n'),'text/csv;charset=utf-8');
+$('exportHtml').onclick=()=>{if(bank.some(x=>!isValid(x))){alert('請先修正未完成的成語資料。');return}const doc=document.documentElement.cloneNode(true);doc.querySelector('#seed-data').textContent=JSON.stringify(bank).replace(/</g,'\\u003c');download('509班_成語複習室_更新版.html','<!doctype html>\n'+doc.outerHTML,'text/html;charset=utf-8')};
+function parseCSV(text){const rows=[];let row=[],s='',quoted=false;for(let i=0;i<text.length;i++){const c=text[i];if(c==='"'){if(quoted&&text[i+1]==='"'){s+='"';i++}else quoted=!quoted}else if(c===','&&!quoted){row.push(s);s=''}else if((c==='\n'||c==='\r')&&!quoted){if(c==='\r'&&text[i+1]==='\n')i++;row.push(s);rows.push(row);row=[];s=''}else s+=c}if(s||row.length){row.push(s);rows.push(row)}const header=rows.shift().map(x=>x.trim().replace(/^\ufeff/,''));return rows.filter(r=>r.some(Boolean)).map((r,i)=>({id:i+1,lesson:Number(r[header.indexOf('lesson')])||1,idiom:r[header.indexOf('idiom')]||'',target:r[header.indexOf('target')]||'',meaning:r[header.indexOf('meaning')]||''}))}
+$('importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const text=await f.text();let a=f.name.toLowerCase().endsWith('.json')?JSON.parse(text):parseCSV(text);if(!Array.isArray(a)||!a.length||a.some(x=>!isValid(x)))throw Error('資料格式錯誤，請確認成語和指定生字都有填寫，且生字包含在成語中。');if(confirm(`匯入 ${a.length} 筆成語並覆蓋目前題庫？`)){bank=a.map((x,i)=>({id:i+1,lesson:Number(x.lesson)||1,idiom:String(x.idiom),target:String(x.target),meaning:String(x.meaning||'')}));persist();renderEditor();refreshCounts();$('editStatus').textContent='✓ 題庫已匯入。'}}catch(err){alert('匯入失敗：'+err.message)}e.target.value=''};
+$('resetItems').onclick=()=>{if(confirm('確定還原原始 36 個成語？目前修改將被覆蓋。')){bank=clone(SEED);persist();renderEditor();refreshCounts()}};
+refreshCounts();
+})();
+</script></body></html>
